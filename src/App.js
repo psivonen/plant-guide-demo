@@ -1,25 +1,24 @@
-import logo from './logo.svg';
+import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
+//import Header from "./components/Header.js";
+import Container from "react-bootstrap/Container";
+import Search from './components/Search';
+import Menu from './components/Header';
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
-function App() {
+const App = () => {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+      <Container className='search-images'>
+        <Router>
+          <Menu/>
+          <Routes>
+            <Route path="/" element={<Search />} />
+          </Routes>
+        </Router>
+      </Container>
+    </>
   );
-}
+};
 
 export default App;
