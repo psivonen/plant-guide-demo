@@ -6,8 +6,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 const Menu = () => {
 
     return (
-      <div>
-        <Navbar bg="light" expand="lg" variant="light" className="fixed-top">
+        <Navbar bg="white" expand="lg" variant="light">
           <Container>
             <Link className="navbar-brand" to="/">
               Plant Guide
@@ -26,7 +25,6 @@ const Menu = () => {
             </Navbar.Collapse>
           </Container>
         </Navbar>
-      </div>
     );
   };
   
