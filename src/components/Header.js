@@ -1,12 +1,12 @@
 import React from "react";
 import {Nav, Navbar, Container} from "react-bootstrap";
 import { NavLink, Link } from "react-router-dom";
-import "bootstrap/dist/css/bootstrap.min.css";
+import { ColorButton } from "./Styled";
 
 const Menu = () => {
 
     return (
-        <Navbar bg="white" expand="lg" variant="light">
+        <Navbar bg="white" expand="lg" variant="light" className="fixed-top">
           <Container>
             <Link className="navbar-brand" to="/">
               Plant Guide
@@ -19,8 +19,8 @@ const Menu = () => {
                 </NavLink>
               </Nav>
               <Nav>
-                <NavLink className="nav-link ml-auto" to="/register">Register</NavLink>
-                <NavLink className="nav-link ml-auto" to="/login">Login</NavLink>
+                <NavLink className="nav-link ml-auto" to="/login">Sign In</NavLink>
+                <NavLink className="ml-auto" to="/signup"><ColorButton>Sign Up</ColorButton></NavLink>
               </Nav>
             </Navbar.Collapse>
           </Container>
