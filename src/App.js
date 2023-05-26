@@ -5,21 +5,24 @@ import Menu from './components/Header';
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Plant from './pages/Plant';
 import RegistrationForm from './pages/Signup';
+import LoginForm from './pages/Login';
 import { Footer } from './components/Footer';
+import { AuthContextProvider } from "./context/Auth";
 
 const App = () => {
   return (
-    <>
+    <AuthContextProvider>
       <Router>
         <Menu/>
           <Routes>
             <Route path="/" element={<Search />} />
             <Route path="/plant/:id" element={<Plant />} />
+            <Route path="/login" element={<LoginForm />} />
             <Route path="/signup" element={<RegistrationForm />} />
           </Routes>
         <Footer/>
       </Router>
-    </>
+    </AuthContextProvider>
   );
 };
 

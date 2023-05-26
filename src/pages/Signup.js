@@ -1,11 +1,6 @@
 import React, { useRef } from "react";
 import { useForm } from "react-hook-form";
-import {
-  Container,
-  Form,
-  FormControl,
-  FormLabel,
-} from "react-bootstrap";
+import { Container, Form, FormControl, FormLabel } from "react-bootstrap";
 import firebase from "../Firebase";
 import { Alert } from "@mui/material";
 import { ColorButton } from "../components/Styled";
@@ -18,10 +13,10 @@ const RegistrationForm = () => {
   password.current = watch("password", "");
 
   // onSubmit function is called when the form is submitted. 
-  // Firebase's authentication methods are used to create a new user with the provided email and password.
   const onSubmit = ({ email, password }) => {
-    firebase.auth()
+    // Firebase's authentication methods are used to create a new user with the provided email and password.
     // If the user creation is successful, the user's email is logged, and an email verification link is sent to the user.
+    firebase.auth()
       .createUserWithEmailAndPassword(email, password)
       .then((userCredential) => {
         console.log("userCredential:", userCredential);
@@ -52,7 +47,7 @@ const RegistrationForm = () => {
   return (
     <Container className="d-flex justify-content-center align-items-center flex-column container-fluid vh-100">
       <h2 className="pb-4">Sign Up</h2>
-      <div className="col-md-4 mb-4">
+      <div className="col-md-3 mb-4">
       <Form onSubmit={handleSubmit(onSubmit)}>
         <FormLabel htmlFor="email">Email</FormLabel>
         <FormControl
@@ -100,7 +95,7 @@ const RegistrationForm = () => {
             </Alert>
           )}
         </div>
-        <ColorButton className="mt-3" type="submit">
+        <ColorButton className="mt-3 w-100" type="submit">
           Register
         </ColorButton>
       </Form>
