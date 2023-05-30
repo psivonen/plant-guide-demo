@@ -4,6 +4,7 @@ import axios from "axios";
 import { Container, Col, Row } from "react-bootstrap";
 import { ACCESS_KEY } from "../config";
 import imgnotfound from "../images/img-notfound.jpg";
+import { AddPlant } from "../components/Styled";
 
 const Plant = () => {
   const { id } = useParams(); // Get plant id from the url
@@ -38,7 +39,9 @@ const Plant = () => {
 const Details = ({ item }) => (
   <Container className="custom-container">
     <div className="d-flex align-items-baseline pb-4">
-    <h3 className="pe-3" style={{textTransform: 'capitalize'}}>{item.common_name}</h3> <h4 style={{ fontStyle: "italic", fontWeight: 'normal' }}>{item.scientific_name}</h4>
+      <h3 className="pe-3" style={{textTransform: 'capitalize'}}>{item.common_name}</h3> 
+      <h4 style={{ fontStyle: "italic", fontWeight: 'normal' }}>{item.scientific_name}</h4>
+      <AddPlant/>
     </div>
   <Row>
     <Col md={6} className="pb-4">

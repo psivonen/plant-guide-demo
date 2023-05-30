@@ -37,9 +37,9 @@ const LoginForm = () => {
           });
         // If the user gives a wrong password, the setError function is called to set an error message for the password field.
         } else if (error.code === "auth/wrong-password") {
-          setError("password", { type: "manual", message: "Wrong password" });
+            setError("password", { type: "manual", message: "Wrong password" });
         } else {
-          console.error(error);
+            console.error(error);
         }
       });
   };

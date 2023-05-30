@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { useNavigate, useLocation } from "react-router-dom";
 import axios from "axios";
 import { ACCESS_KEY } from "../config";
 import imgnotfound from "../images/img-notfound.jpg";
@@ -7,22 +7,50 @@ import { Container, Form, FormControl, InputGroup, Col, Row, Card } from "react-
 import SearchIcon from "@mui/icons-material/Search";
 import { ColorButton } from "../components/Styled";
 
-// Read more button navigates to detail page of the plant
+// Navigate to detail page of the plant
 const ReadMore = (navigate, id) => {
-  //console.log(id)
   navigate("/plant/" + id);
 };
 
 const Search = () => {
   const [query, setQuery] = useState("");
   const [list, setList] = useState([]);
+  const [recentSearches, setRecentSearches] = useState([]);
   const navigate = useNavigate();
+  const location = useLocation();
+
+  useEffect(() => {
+    // Event listener for popstate event to handle browser back button
+    const handlePopstate = () => {
+      const savedSearches = localStorage.getItem('recentSearches');
+      if (savedSearches) {
+        setRecentSearches(JSON.parse(savedSearches));
+      }
+    };
+
+    window.addEventListener('popstate', handlePopstate);
+
+    return () => {
+      window.removeEventListener('popstate', handlePopstate);
+    };
+  }, []);
+
+  useEffect(() => {
+    // Extract the search query from the URL params
+    const searchParams = new URLSearchParams(location.search);
+    const searchQuery = searchParams.get('q');
+
+    if (searchQuery) {
+      setQuery(searchQuery);
+      handleSearch(searchQuery);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [location.search]);
 
   // Asynchronous function that is called when the search form is submitted.
   // It makes a GET request to the Plant API using axios, passing the query and the ACCESS_KEY as parameters.
   // If succesful, set the plant state with the received data.
-  const handleSearchSubmit = async (e) => {
-    e.preventDefault();
+  const handleSearch = async (query) => {
     try {
       const response = await axios.get(
         `https://perenual.com/api/species-list?page=1&key=${ACCESS_KEY}`,
@@ -37,6 +65,10 @@ const Search = () => {
     } catch (error) {
       console.error(error);
     }
+
+    const updatedSearches = [query, ...recentSearches];
+    setRecentSearches(updatedSearches);
+    localStorage.setItem('recentSearches', JSON.stringify(updatedSearches));
   };
 
   let plantList;
@@ -71,6 +103,13 @@ const Search = () => {
     }
   }
 
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    handleSearch(query);
+    // Update the browser URL with the search query
+    navigate(`?q=${query}`);
+  };
+
   return (
     <>
       <Container className="d-flex justify-content-center align-items-center flex-column container-fluid custom-container form">
@@ -80,7 +119,7 @@ const Search = () => {
           <br/>Praesent molestie ac quam porta cursus. Aliquam id tellus nec orci 
           <br/>pulvinar maximus id dapibus arcu. Ut lobortis felis in dolor gravida venenatis.
         </p>
-        <Form onSubmit={handleSearchSubmit} className="search-form text-center">
+        <Form onSubmit={handleSubmit} className="search-form text-center">
           <InputGroup>
             <span className="input-group-text" id="addon-wrapping">
               <SearchIcon />

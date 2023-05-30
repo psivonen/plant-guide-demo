@@ -19,15 +19,15 @@ const RegistrationForm = () => {
     firebase.auth()
       .createUserWithEmailAndPassword(email, password)
       .then((userCredential) => {
-        console.log("userCredential:", userCredential);
+        const user = userCredential.user;
         console.log("New user:", email);
-        let user = firebase.auth().currentUser;
+        // Send verification email
         user.sendEmailVerification()
           .then(function () {
             console.log("Verification email sent");
           })
           .catch(function (error) {
-            console.log("Error:", error);
+            console.log("Error sending verification email:", error);
           });
       })
       // If the error is due to the email already being in use, an error message is set for the "email" field using the setError function.
@@ -42,7 +42,7 @@ const RegistrationForm = () => {
           console.error(error);
         }
       });
-  };
+    };
 
   return (
     <Container className="d-flex justify-content-center align-items-center flex-column container-fluid vh-100">
