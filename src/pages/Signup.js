@@ -13,36 +13,30 @@ const RegistrationForm = () => {
   password.current = watch("password", "");
 
   // onSubmit function is called when the form is submitted. 
-  const onSubmit = ({ email, password }) => {
+  const onSubmit = async ({ email, password }) => {
     // Firebase's authentication methods are used to create a new user with the provided email and password.
     // If the user creation is successful, the user's email is logged, and an email verification link is sent to the user.
-    firebase.auth()
-      .createUserWithEmailAndPassword(email, password)
-      .then((userCredential) => {
-        const user = userCredential.user;
-        console.log("New user:", email);
-        // Send verification email
-        user.sendEmailVerification()
-          .then(function () {
-            console.log("Verification email sent");
-          })
-          .catch(function (error) {
-            console.log("Error sending verification email:", error);
-          });
-      })
+    try {
+      const userCredential = await firebase.auth().createUserWithEmailAndPassword(email, password);
+      const user = userCredential.user;
+      console.log("New user:", email);
+
+      await user.sendEmailVerification();
+      console.log("Verification email sent");
+      
       // If the error is due to the email already being in use, an error message is set for the "email" field using the setError function.
-      .catch((error) => {
-        if (error.code === "auth/email-already-in-use") {
-          setError("email", {
-            type: "manual",
-            message: "This email address is already in use.",
-          });
-          console.log(email, "already in use");
-        } else {
-          console.error(error);
-        }
-      });
-    };
+      } catch (error) {
+      if (error.code === "auth/email-already-in-use") {
+        setError("email", {
+          type: "manual",
+          message: "This email address is already in use.",
+        });
+        console.log(email, "already in use");
+      } else {
+        console.error(error);
+      }
+    }
+  };
 
   return (
     <Container className="d-flex justify-content-center align-items-center flex-column container-fluid vh-100">

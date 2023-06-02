@@ -6,6 +6,7 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Plant from './pages/Plant';
 import RegistrationForm from './pages/Signup';
 import LoginForm from './pages/Login';
+import Favorites from './pages/Favorites';
 import { Footer } from './components/Footer';
 import { AuthContextProvider } from "./context/Auth";
 
@@ -19,6 +20,7 @@ const App = () => {
             <Route path="/plant/:id" element={<Plant />} />
             <Route path="/login" element={<LoginForm />} />
             <Route path="/signup" element={<RegistrationForm />} />
+            <Route path="/favorites" element={<Favorites />} />
           </Routes>
         <Footer/>
       </Router>

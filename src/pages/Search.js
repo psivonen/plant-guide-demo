@@ -8,7 +8,7 @@ import SearchIcon from "@mui/icons-material/Search";
 import { ColorButton } from "../components/Styled";
 
 // Navigate to detail page of the plant
-const ReadMore = (navigate, id) => {
+const Details = (navigate, id) => {
   navigate("/plant/" + id);
 };
 
@@ -92,7 +92,7 @@ const Search = () => {
             <div className="card-body">
               <h4 className="card-title">{item.common_name}</h4>
               <p className="card-text" style={{ fontStyle: "italic" }}>{item.scientific_name}</p>
-              <ColorButton onClick={() => ReadMore(navigate, item.id)}>Read more</ColorButton>
+              <ColorButton onClick={() => Details(navigate, item.id)}>Details</ColorButton>
             </div>
           </Card>
         </Col>

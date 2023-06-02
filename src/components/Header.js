@@ -55,6 +55,7 @@ const Menu = () => {
               and a "Sign Up" link (NavLink) with a reference to the "/signup" route. */}
               {isLoggedIn ? (
                 <NavDropdown title={displayEmail} menuVariant="light">
+                  <NavDropdown.Item as={Link} to="/favorites">Favorites</NavDropdown.Item>
                   <NavDropdown.Item onClick={handleLogout}>Logout</NavDropdown.Item>
                 </NavDropdown>
               ) : (
