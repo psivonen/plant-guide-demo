@@ -13,6 +13,7 @@ const LoginForm = () => {
 // It provides methods and properties like register, handleSubmit, setError, 
 // formState helps with form validation and handling form submission.
   const { register, handleSubmit, setError, formState: { errors }} = useForm();
+  // eslint-disable-next-line 
   const [isLoading, setIsLoading] = useState(false);
   // The useNavigate hook is used to obtain a navigation function, which will be used to redirect the user after a successful login.
   const navigate = useNavigate();

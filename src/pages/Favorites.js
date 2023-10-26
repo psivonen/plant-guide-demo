@@ -49,7 +49,7 @@ useEffect(() => {
     return () => unsubscribe();
   }, []);
 
-  const deleteFavorite = async(id) => {
+  const removeFavorite = async(id) => {
     try {
       const favoritesDocRef = doc(db, 'users', firebase.auth().currentUser.uid, 'favorites', id);
       await deleteDoc(favoritesDocRef);
@@ -60,15 +60,20 @@ useEffect(() => {
   }
 
   return (
-    <div className='custom-container'>
-      <ul>
+    <div className='custom-container d-flex justify-content-center'>
+      <div className='d-flex justify-content-center flex-column'>
         {data.map(item => (
-          <li className="pb-2" key={item.id} style={{textTransform: 'capitalize'}}>{item.common_name}
-            <ColorButton className="me-2" onClick={() => Details(navigate, item.plant_id)}>Details</ColorButton>
-            <Button color="error" variant='outlined' onClick={() => deleteFavorite(item.id)}>Delete</Button>
-          </li>
+          <div className='d-flex gap-5 align-items-baseline'>
+            <div className="pb-4" key={item.id} style={{textTransform: 'capitalize'}}>
+              {item.common_name}
+            </div>
+            <div>
+              <ColorButton className="me-2" onClick={() => Details(navigate, item.plant_id)}>Details</ColorButton>
+              <Button color="error" variant='outlined' onClick={() => removeFavorite(item.id)}>Remove</Button>
+          </div>
+          </div>
         ))}
-      </ul>
+      </div>
     </div>
   )
 };

@@ -9,8 +9,14 @@ import LoginForm from './pages/Login';
 import Favorites from './pages/Favorites';
 import { Footer } from './components/Footer';
 import { AuthContextProvider } from "./context/Auth";
+import { useEffect } from 'react';
 
 const App = () => {
+
+  useEffect(() => {
+    document.title = "Plant Guide";  
+  }, []);
+
   return (
     <AuthContextProvider>
       <Router>

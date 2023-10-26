@@ -3,7 +3,15 @@ import { useNavigate, useLocation } from "react-router-dom";
 import axios from "axios";
 import { ACCESS_KEY } from "../config";
 import imgnotfound from "../images/img-notfound.jpg";
-import { Container, Form, FormControl, InputGroup, Col, Row, Card } from "react-bootstrap";
+import {
+  Container,
+  Form,
+  FormControl,
+  InputGroup,
+  Col,
+  Row,
+  Card,
+} from "react-bootstrap";
 import SearchIcon from "@mui/icons-material/Search";
 import { ColorButton } from "../components/Styled";
 
@@ -18,27 +26,28 @@ const Search = () => {
   const [recentSearches, setRecentSearches] = useState([]);
   const navigate = useNavigate();
   const location = useLocation();
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     // Event listener for popstate event to handle browser back button
     const handlePopstate = () => {
-      const savedSearches = localStorage.getItem('recentSearches');
+      const savedSearches = localStorage.getItem("recentSearches");
       if (savedSearches) {
         setRecentSearches(JSON.parse(savedSearches));
       }
     };
 
-    window.addEventListener('popstate', handlePopstate);
+    window.addEventListener("popstate", handlePopstate);
 
     return () => {
-      window.removeEventListener('popstate', handlePopstate);
+      window.removeEventListener("popstate", handlePopstate);
     };
   }, []);
 
   useEffect(() => {
     // Extract the search query from the URL params
     const searchParams = new URLSearchParams(location.search);
-    const searchQuery = searchParams.get('q');
+    const searchQuery = searchParams.get("q");
 
     if (searchQuery) {
       setQuery(searchQuery);
@@ -52,6 +61,7 @@ const Search = () => {
   // If succesful, set the plant state with the received data.
   const handleSearch = async (query) => {
     try {
+      setIsLoading(true);
       const response = await axios.get(
         `https://perenual.com/api/species-list?page=1&key=${ACCESS_KEY}`,
         // Get your own access key, when registering into perenual.com
@@ -62,13 +72,15 @@ const Search = () => {
       console.log("Search query:", query);
       console.log("Result:", response.data.data);
       setList(response.data.data);
+      setIsLoading(false);
     } catch (error) {
       console.error(error);
+      setIsLoading(false);
     }
 
     const updatedSearches = [query, ...recentSearches];
     setRecentSearches(updatedSearches);
-    localStorage.setItem('recentSearches', JSON.stringify(updatedSearches));
+    localStorage.setItem("recentSearches", JSON.stringify(updatedSearches));
   };
 
   let plantList;
@@ -80,7 +92,7 @@ const Search = () => {
         <Col key={item.id} md={4} className="pb-4 img-column">
           <Card>
             {/* If the default_image exists, it is displayed; otherwise, the imgnotfound image is shown. */}
-            {item.default_image.regular_url ? (
+            {item.default_image && item.default_image.regular_url ? (
               <img
                 src={item.default_image.regular_url}
                 alt={item.common_name}
@@ -91,8 +103,12 @@ const Search = () => {
             )}
             <div className="card-body">
               <h4 className="card-title">{item.common_name}</h4>
-              <p className="card-text" style={{ fontStyle: "italic" }}>{item.scientific_name}</p>
-              <ColorButton onClick={() => Details(navigate, item.id)}>Details</ColorButton>
+              <p className="card-text" style={{ fontStyle: "italic" }}>
+                {item.scientific_name}
+              </p>
+              <ColorButton onClick={() => Details(navigate, item.id)}>
+                Details
+              </ColorButton>
             </div>
           </Card>
         </Col>
@@ -114,13 +130,24 @@ const Search = () => {
     <>
       <Container className="d-flex justify-content-center align-items-center flex-column container-fluid custom-container form">
         <h1>Search plant</h1>
-        <p className="lead">
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
-          <br/>Praesent molestie ac quam porta cursus. Aliquam id tellus nec orci 
-          <br/>pulvinar maximus id dapibus arcu. Ut lobortis felis in dolor gravida venenatis.
+        <p className="lead" style={{ maxWidth: "500px" }}>
+          This React app is using{" "}
+          <a
+            href="https://perenual.com/docs/api"
+            target="_blank"
+            rel="noreferrer"
+            className="link-light"
+          >
+            Perenual API
+          </a>{" "}
+          to get data from different plant species.
+          App is using free version of this API, so not all data is available.
         </p>
-        <Form onSubmit={handleSubmit} className="search-form text-center">
-          <InputGroup>
+        <Form
+          onSubmit={handleSubmit}
+          className="d-flex justify-content-center align-items-center w-75"
+        >
+          <InputGroup style={{ maxWidth: "500px" }}>
             <span className="input-group-text" id="addon-wrapping">
               <SearchIcon />
             </span>
@@ -130,14 +157,18 @@ const Search = () => {
               value={query}
               onChange={(e) => setQuery(e.target.value)}
             />
-          <ColorButton variant="contained" type="submit">
+            <ColorButton variant="contained" type="submit">
               Search
-          </ColorButton>
+            </ColorButton>
           </InputGroup>
         </Form>
       </Container>
       <Container className="d-flex justify-content-center align-items-center flex-column plant-container">
-        <Row className="mt-5 plants">{plantList}</Row>
+        {isLoading ? (
+          <span className="loader" style={{marginTop: '50px'}}></span>
+        ) : (
+          <Row className="mt-5 plants">{plantList}</Row>
+        )}
       </Container>
     </>
   );
