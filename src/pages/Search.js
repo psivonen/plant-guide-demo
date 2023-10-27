@@ -28,6 +28,11 @@ const Search = () => {
   const location = useLocation();
   const [isLoading, setIsLoading] = useState(false);
 
+  // If image is not available, due to API restrictions or another error, alternate image is displayed
+  const handleImageError = (altImage) => {
+    altImage.src = imgnotfound; // Set the src to the alternate image
+  };
+
   useEffect(() => {
     // Event listener for popstate event to handle browser back button
     const handlePopstate = () => {
@@ -97,6 +102,7 @@ const Search = () => {
                 src={item.default_image.regular_url}
                 alt={item.common_name}
                 className="img-fluid"
+                onError={(e) => handleImageError(e.target)}
               />
             ) : (
               <img src={imgnotfound} alt="Not Found" className="img-fluid" />
