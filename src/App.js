@@ -5,12 +5,8 @@ import Menu from "./components/Header";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Plant from "./pages/Plant";
 import { Footer } from "./components/Footer";
-import { useEffect } from "react";
 
 const App = () => {
-  useEffect(() => {
-    document.title = "Plant Guide";
-  }, []);
 
   return (
     <Router>
