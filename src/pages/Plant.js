@@ -15,7 +15,7 @@ const Plant = () => {
   const navigate = useNavigate();
 
   const Search = () => {
-    navigate("/");
+    navigate("/plant-guide-demo");
   };
 
   // Runs whenever the plant id changes. 

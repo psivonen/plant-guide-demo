@@ -7,7 +7,7 @@ const Menu = () => {
     return (
         <Navbar bg="white" expand="lg" variant="light" className="fixed-top">
           <Container>
-            <Link className="navbar-brand" to="/">
+            <Link className="navbar-brand" to="/plant-guide-demo">
               Plant Guide
             </Link>
             <Navbar.Toggle aria-controls="basic-navbar-nav" />
