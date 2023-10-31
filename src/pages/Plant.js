@@ -22,7 +22,6 @@ const Plant = () => {
   // It calls the getData function to fetch plant details.
   useEffect(() => {
     if (id) {
-      console.log("Plant id:", id);
       getData();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -37,7 +36,6 @@ const Plant = () => {
         `https://perenual.com/api/species/details/${id}?key=${ACCESS_KEY}` 
         // Get your own access key, when registering into perenual.com
       );
-      console.log(response.data)
       setPlant(response.data);
       setIsLoading(false);
     } catch (error) {

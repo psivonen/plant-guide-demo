@@ -74,8 +74,6 @@ const Search = () => {
           params: { q: query },
         }
       );
-      console.log("Search query:", query);
-      console.log("Result:", response.data.data);
       setList(response.data.data);
       setIsLoading(false);
     } catch (error) {
