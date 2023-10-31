@@ -17,7 +17,7 @@ import { ColorButton } from "../components/Styled";
 
 // Navigate to detail page of the plant
 const Details = (navigate, id) => {
-  navigate("/plant/" + id);
+  navigate("/plant-guide-demo/plant/" + id);
 };
 
 const Search = () => {
